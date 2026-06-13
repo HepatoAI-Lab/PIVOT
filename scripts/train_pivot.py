@@ -102,8 +102,9 @@ def main() -> None:
             he_model=he_model,
             cd34_model=cd34_model,
             classification_weight=0.0,
-            lambda_morph=cfg["training"].get("lambda_morph", 0.5),
-            lambda_vasc=cfg["training"].get("lambda_vasc", 0.5),
+            lambda_morph=cfg["training"].get("lambda_morph", 0.05),
+            lambda_vasc=cfg["training"].get("lambda_vasc", 0.10),
+            alignment_gamma=cfg["training"].get("alignment_gamma", 3.0),
         )
         print(f"alignment_epoch={epoch} {metrics}")
 
@@ -135,8 +136,9 @@ def main() -> None:
             he_model=he_model,
             cd34_model=cd34_model,
             classification_weight=1.0,
-            lambda_morph=cfg["training"].get("lambda_morph", 0.5),
-            lambda_vasc=cfg["training"].get("lambda_vasc", 0.5),
+            lambda_morph=cfg["training"].get("lambda_morph", 0.05),
+            lambda_vasc=cfg["training"].get("lambda_vasc", 0.10),
+            alignment_gamma=cfg["training"].get("alignment_gamma", 3.0),
         )
         val_metrics = evaluate(model, val_loader, device)
         print(f"joint_epoch={epoch} train={train_metrics} val={val_metrics}")

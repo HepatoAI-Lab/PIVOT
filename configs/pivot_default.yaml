@@ -58,5 +58,6 @@ training:
   new_module_lr: 0.0001
   backbone_lr: 0.00001
   weight_decay: 0.00001
-  lambda_morph: 0.5
-  lambda_vasc: 0.5
+  lambda_morph: 0.05
+  lambda_vasc: 0.10
+  alignment_gamma: 3.0

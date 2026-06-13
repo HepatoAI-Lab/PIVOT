@@ -26,7 +26,7 @@ Each sequence is encoded independently with the same Triad-SwinB encoder. Sequen
 
 For pathology, slide-level embeddings from all available H&E or CD34 slides of the same patient are aggregated with a patient-level attention module. H&E provides a morphologic reference embedding, whereas CD34 provides a vascular reference embedding and defines the VETC endpoint.
 
-The MRI model is optimized with VETC classification loss and two cosine-distance alignment losses.
+The MRI model is optimized with VETC classification loss and two scaled cosine-error alignment losses.
 
 ```math
 \mathcal{L}_{\mathrm{total}}
@@ -37,6 +37,8 @@ The MRI model is optimized with VETC classification loss and two cosine-distance
 +
 \lambda_{\mathrm{vasc}}\mathcal{L}_{\mathrm{vasc}}
 ```
+
+The default setting uses `gamma=3`, `lambda_morph=0.05`, and `lambda_vasc=0.10`, assigning a moderately higher weight to the CD34-derived vascular reference.
 
 ## ⚙️ Installation
 

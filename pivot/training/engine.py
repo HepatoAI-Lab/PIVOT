@@ -38,8 +38,9 @@ def train_one_epoch(
     he_model: nn.Module | None = None,
     cd34_model: nn.Module | None = None,
     classification_weight: float = 1.0,
-    lambda_morph: float = 0.5,
-    lambda_vasc: float = 0.5,
+    lambda_morph: float = 0.05,
+    lambda_vasc: float = 0.10,
+    alignment_gamma: float = 3.0,
 ) -> dict[str, float]:
     model.train()
     if he_model is not None:
@@ -60,6 +61,7 @@ def train_one_epoch(
             classification_weight=classification_weight,
             lambda_morph=lambda_morph,
             lambda_vasc=lambda_vasc,
+            alignment_gamma=alignment_gamma,
             **references,
         )
         losses["loss_total"].backward()

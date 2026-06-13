@@ -4,18 +4,30 @@ import torch
 import torch.nn.functional as F
 
 
-def cosine_distance_loss(
+def scaled_cosine_error_loss(
     prediction: torch.Tensor,
     reference: torch.Tensor,
     mask: torch.Tensor | None = None,
+    gamma: float = 3.0,
 ) -> torch.Tensor:
-    losses = 1.0 - F.cosine_similarity(prediction, reference, dim=-1)
+    cosine_error = 1.0 - F.cosine_similarity(prediction, reference, dim=-1)
+    losses = torch.clamp(cosine_error, min=0.0).pow(gamma)
     if mask is not None:
         mask = mask.to(device=losses.device, dtype=torch.bool)
         if not mask.any():
             return losses.new_tensor(0.0)
         losses = losses[mask]
     return losses.mean()
+
+
+def cosine_distance_loss(
+    prediction: torch.Tensor,
+    reference: torch.Tensor,
+    mask: torch.Tensor | None = None,
+) -> torch.Tensor:
+    """Backward-compatible unscaled cosine-distance loss."""
+
+    return scaled_cosine_error_loss(prediction, reference, mask=mask, gamma=1.0)
 
 
 def pivot_loss(
@@ -25,8 +37,9 @@ def pivot_loss(
     cd34_reference: torch.Tensor | None = None,
     he_mask: torch.Tensor | None = None,
     cd34_mask: torch.Tensor | None = None,
-    lambda_morph: float = 0.5,
-    lambda_vasc: float = 0.5,
+    lambda_morph: float = 0.05,
+    lambda_vasc: float = 0.10,
+    alignment_gamma: float = 3.0,
     classification_weight: float = 1.0,
     pos_weight: torch.Tensor | None = None,
 ) -> dict[str, torch.Tensor]:
@@ -41,12 +54,22 @@ def pivot_loss(
         total = total + classification_weight * cls
 
     if he_reference is not None and lambda_morph > 0:
-        morph = cosine_distance_loss(outputs["morphology_embedding"], he_reference.to(device), he_mask)
+        morph = scaled_cosine_error_loss(
+            outputs["morphology_embedding"],
+            he_reference.to(device),
+            he_mask,
+            gamma=alignment_gamma,
+        )
         parts["loss_morph"] = morph
         total = total + lambda_morph * morph
 
     if cd34_reference is not None and lambda_vasc > 0:
-        vasc = cosine_distance_loss(outputs["vascular_embedding"], cd34_reference.to(device), cd34_mask)
+        vasc = scaled_cosine_error_loss(
+            outputs["vascular_embedding"],
+            cd34_reference.to(device),
+            cd34_mask,
+            gamma=alignment_gamma,
+        )
         parts["loss_vasc"] = vasc
         total = total + lambda_vasc * vasc
 
