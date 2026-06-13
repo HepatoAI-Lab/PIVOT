@@ -1,0 +1,3 @@
+patient_id,split,label,T1WI,T2WI,DWI,ADC,AP,PVP,DP,he_slide_embeddings,cd34_slide_embeddings
+P001,train,1,/data/P001/T1WI.pt,/data/P001/T2WI.pt,/data/P001/DWI.pt,/data/P001/ADC.pt,/data/P001/AP.pt,/data/P001/PVP.pt,/data/P001/DP.pt,"/emb/P001_HE_1.pt;/emb/P001_HE_2.pt","/emb/P001_CD34_1.pt"
+P002,val,0,/data/P002/T1WI.pt,/data/P002/T2WI.pt,/data/P002/DWI.pt,/data/P002/ADC.pt,/data/P002/AP.pt,/data/P002/PVP.pt,/data/P002/DP.pt,/emb/P002_HE_1.pt,"/emb/P002_CD34_1.pt;/emb/P002_CD34_2.pt"

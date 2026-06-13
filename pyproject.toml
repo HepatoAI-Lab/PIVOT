@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pivot-vetc"
+version = "0.1.0"
+description = "Pathology-informed foundation model for VETC prediction from pretreatment MRI"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "pandas",
+  "pyyaml",
+  "torch",
+  "torchvision",
+  "timm>=1.0.3",
+  "einops",
+]
+
+[tool.setuptools.packages.find]
+include = ["pivot*"]

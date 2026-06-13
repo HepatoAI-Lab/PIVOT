@@ -1,0 +1,3 @@
+slide_id,patient_id,stain,slide_path
+P001_HE_1,P001,he,/slides/P001_HE_1.svs
+P001_CD34_1,P001,cd34,/slides/P001_CD34_1.svs

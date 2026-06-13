@@ -1,0 +1,48 @@
+output_dir: outputs
+
+paths:
+  triad_repo: /home/rj/Claude_space/Project/Triad
+  triad_checkpoint: /home/rj/Claude_space/Project/Triad/weights/Triad-SwinB-SimMIM.pth
+  gigapath_repo: /home/rj/Claude_space/Project/prov-gigapath
+  gigapath_tile_checkpoint: /home/rj/Claude_space/Project/prov-gigapath/hf_weights/pytorch_model.bin
+  gigapath_slide_checkpoint: /home/rj/Claude_space/Project/prov-gigapath/hf_weights/slide_encoder.pth
+
+data:
+  manifest_csv: data/pivot_manifest.csv
+  train_split: train
+  val_split: val
+  test_split: test
+  sequences:
+    - T1WI
+    - T2WI
+    - DWI
+    - ADC
+    - AP
+    - PVP
+    - DP
+
+model:
+  model_dim: 768
+  reference_dim: 768
+  adapter_bottleneck_dim: 128
+  sequence_transformer_layers: 2
+  sequence_transformer_heads: 8
+
+pathology:
+  slide_embedding_dim: 768
+  patient_hidden_dim: 256
+
+training:
+  device: cuda
+  num_workers: 4
+  pathology_batch_size: 16
+  pathology_epochs: 50
+  pathology_lr: 0.0001
+  mri_batch_size: 2
+  alignment_epochs: 20
+  joint_epochs: 80
+  new_module_lr: 0.0001
+  backbone_lr: 0.00001
+  weight_decay: 0.00001
+  lambda_morph: 0.5
+  lambda_vasc: 0.5
