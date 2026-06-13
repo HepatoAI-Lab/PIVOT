@@ -76,12 +76,54 @@ Example files are provided in:
 ```text
 data/pivot_manifest.example.csv
 data/slides.example.csv
+data/segmentation_cases.example.csv
+data/mri_cases.example.csv
+data/labels.example.csv
 ```
 
-To extract slide-level embeddings from raw WSIs:
+The raw-to-model workflow is organized into separate clinical data preparation steps.
+
+### 🧲 Automated MRI Tumor Segmentation
+
+Run the local nnU-Net liver tumor segmentor on the reference MRI phase, typically PVP.
 
 ```bash
-python scripts/extract_gigapath_slide_embeddings.py \
+python scripts/run_tumor_segmentation.py \
+  --cases-csv data/segmentation_cases.csv \
+  --output-dir outputs/segmentation \
+  --output-csv outputs/segmentation/masks.csv \
+  --model-dir ../LiverTumorSegmentor
+```
+
+The input CSV should contain:
+
+```text
+patient_id,image_path
+```
+
+### 🧬 Multiparametric MRI Preparation
+
+Prepare registered tumor-centered tensors for the seven MRI sequences.
+
+```bash
+python scripts/preprocess_mri.py \
+  --cases-csv data/mri_cases.csv \
+  --output-dir outputs/mri_tensors \
+  --output-csv outputs/mri_tensors/mri_manifest.csv
+```
+
+The input CSV should contain:
+
+```text
+patient_id,mask_path,T1WI,T2WI,DWI,ADC,AP,PVP,DP
+```
+
+### 🧫 Whole-Slide Image Processing
+
+Tile H&E and CD34 WSIs and extract Prov-GigaPath slide-level embeddings.
+
+```bash
+python scripts/tile_wsi.py \
   --config configs/pivot_default.yaml \
   --slides-csv data/slides.csv \
   --output-dir outputs/gigapath_embeddings
@@ -91,6 +133,18 @@ The slide CSV should contain:
 
 ```text
 slide_id,patient_id,stain,slide_path
+```
+
+### 🧾 Patient-Level Manifest
+
+Combine MRI tensors, VETC labels, cohort splits, and WSI embeddings into the final PIVOT manifest.
+
+```bash
+python scripts/build_pivot_manifest.py \
+  --mri-csv outputs/mri_tensors/mri_manifest.csv \
+  --labels-csv data/labels.csv \
+  --slide-embedding-csv outputs/gigapath_embeddings/slide_embedding_manifest.csv \
+  --output-csv data/pivot_manifest.csv
 ```
 
 ## 🚀 Training
@@ -154,10 +208,14 @@ pivot/
   training/                       Losses, metrics, and training utilities
   utils/                          Configuration utilities
 scripts/
-  extract_gigapath_slide_embeddings.py
+  run_tumor_segmentation.py
+  preprocess_mri.py
+  tile_wsi.py
+  build_pivot_manifest.py
   train_pathology.py
   train_pivot.py
   infer_pivot.py
+  evaluate_predictions.py
 ```
 
 ## 📚 Citation

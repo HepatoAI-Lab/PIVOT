@@ -5,10 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-import pandas as pd
-import torch
-
-from pivot.utils.config import load_config, resolve_config_path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
 def main() -> None:
@@ -20,6 +17,11 @@ def main() -> None:
     parser.add_argument("--tile-size", type=int, default=256)
     parser.add_argument("--level", type=int, default=0)
     args = parser.parse_args()
+
+    import pandas as pd
+    import torch
+
+    from pivot.utils.config import load_config, resolve_config_path
 
     cfg = load_config(args.config)
     gigapath_repo = Path(resolve_config_path(cfg, cfg["paths"]["gigapath_repo"]))

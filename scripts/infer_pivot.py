@@ -3,14 +3,10 @@ from __future__ import annotations
 
 import argparse
 import csv
+import sys
 from pathlib import Path
 
-import torch
-from torch.utils.data import DataLoader
-
-from pivot.data import PIVOTCaseDataset, pivot_collate
-from pivot.models import PIVOTMRIEncoder, PIVOTModel
-from pivot.utils.config import load_config, resolve_config_path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
 def main() -> None:
@@ -20,6 +16,13 @@ def main() -> None:
     parser.add_argument("--split", default="test")
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
+
+    import torch
+    from torch.utils.data import DataLoader
+
+    from pivot.data import PIVOTCaseDataset, pivot_collate
+    from pivot.models import PIVOTMRIEncoder, PIVOTModel
+    from pivot.utils.config import load_config, resolve_config_path
 
     cfg = load_config(args.config)
     device = torch.device(cfg["training"].get("device", "cuda" if torch.cuda.is_available() else "cpu"))

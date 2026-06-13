@@ -2,18 +2,17 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
-import torch
-from torch.utils.data import DataLoader
-
-from pivot.data import PIVOTCaseDataset, pivot_collate
-from pivot.models import PIVOTMRIEncoder, PIVOTModel, PathologyReferenceModel
-from pivot.training import evaluate, train_one_epoch
-from pivot.utils.config import load_config, resolve_config_path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
-def load_reference_model(path: str, cfg: dict, device: torch.device) -> PathologyReferenceModel:
+def load_reference_model(path: str, cfg: dict, device: torch.device):
+    import torch
+
+    from pivot.models import PathologyReferenceModel
+
     model = PathologyReferenceModel(
         slide_embedding_dim=cfg["pathology"].get("slide_embedding_dim", 768),
         reference_dim=cfg["model"].get("reference_dim", 768),
@@ -28,6 +27,10 @@ def load_reference_model(path: str, cfg: dict, device: torch.device) -> Patholog
 
 
 def make_loaders(cfg: dict):
+    from torch.utils.data import DataLoader
+
+    from pivot.data import PIVOTCaseDataset, pivot_collate
+
     train_ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=cfg["data"].get("train_split", "train"))
     val_ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=cfg["data"].get("val_split", "val"))
     train_loader = DataLoader(
@@ -53,6 +56,12 @@ def main() -> None:
     parser.add_argument("--he-checkpoint", required=True)
     parser.add_argument("--cd34-checkpoint", required=True)
     args = parser.parse_args()
+
+    import torch
+
+    from pivot.models import PIVOTMRIEncoder, PIVOTModel
+    from pivot.training import evaluate, train_one_epoch
+    from pivot.utils.config import load_config, resolve_config_path
 
     cfg = load_config(args.config)
     device = torch.device(cfg["training"].get("device", "cuda" if torch.cuda.is_available() else "cpu"))

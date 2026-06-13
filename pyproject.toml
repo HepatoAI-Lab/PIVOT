@@ -8,13 +8,18 @@ version = "0.1.0"
 description = "Pathology-informed foundation model for VETC prediction from pretreatment MRI"
 requires-python = ">=3.10"
 dependencies = [
-  "numpy",
+  "numpy<2",
   "pandas",
   "pyyaml",
   "torch",
   "torchvision",
   "timm>=1.0.3",
   "einops",
+  "nibabel",
+  "SimpleITK",
+  "scikit-image",
+  "openslide-python",
+  "tqdm",
 ]
 
 [tool.setuptools.packages.find]

@@ -6,6 +6,7 @@ paths:
   gigapath_repo: ../prov-gigapath
   gigapath_tile_checkpoint: ../prov-gigapath/hf_weights/pytorch_model.bin
   gigapath_slide_checkpoint: ../prov-gigapath/hf_weights/slide_encoder.pth
+  liver_tumor_segmentor: ../LiverTumorSegmentor
 
 data:
   manifest_csv: data/pivot_manifest.csv
@@ -31,6 +32,19 @@ model:
 pathology:
   slide_embedding_dim: 768
   patient_hidden_dim: 256
+
+preprocessing:
+  reference_sequence: PVP
+  target_spacing:
+    - 1.5
+    - 1.5
+    - 3.0
+  crop_size:
+    - 96
+    - 160
+    - 160
+  tile_size: 256
+  wsi_level: 0
 
 training:
   device: cuda

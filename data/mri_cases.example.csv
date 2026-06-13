@@ -1,0 +1,2 @@
+patient_id,mask_path,T1WI,T2WI,DWI,ADC,AP,PVP,DP
+PIVOT_0001,/path/to/PIVOT_0001_mask.nii.gz,/path/to/PIVOT_0001_T1WI.nii.gz,/path/to/PIVOT_0001_T2WI.nii.gz,/path/to/PIVOT_0001_DWI.nii.gz,/path/to/PIVOT_0001_ADC.nii.gz,/path/to/PIVOT_0001_AP.nii.gz,/path/to/PIVOT_0001_PVP.nii.gz,/path/to/PIVOT_0001_DP.nii.gz

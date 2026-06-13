@@ -2,19 +2,18 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
-import torch
-import torch.nn.functional as F
-from torch.utils.data import DataLoader
-
-from pivot.data import PIVOTCaseDataset, pivot_collate
-from pivot.models import PathologyReferenceModel
-from pivot.training.metrics import binary_auc
-from pivot.utils.config import load_config
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
 def run_epoch(model, loader, optimizer, device, stain: str, train: bool = True):
+    import torch
+    import torch.nn.functional as F
+
+    from pivot.training.metrics import binary_auc
+
     model.train(train)
     labels, scores, losses = [], [], []
     for batch in loader:
@@ -41,6 +40,13 @@ def main() -> None:
     parser.add_argument("--config", required=True)
     parser.add_argument("--stain", choices=["he", "cd34"], required=True)
     args = parser.parse_args()
+
+    import torch
+    from torch.utils.data import DataLoader
+
+    from pivot.data import PIVOTCaseDataset, pivot_collate
+    from pivot.models import PathologyReferenceModel
+    from pivot.utils.config import load_config
 
     cfg = load_config(args.config)
     device = torch.device(cfg["training"].get("device", "cuda" if torch.cuda.is_available() else "cpu"))
