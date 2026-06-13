@@ -38,7 +38,7 @@ The MRI model is optimized with VETC classification loss and two scaled cosine-e
 \lambda_{\mathrm{vasc}}\mathcal{L}_{\mathrm{vasc}}
 ```
 
-The default setting uses `gamma=3`, `lambda_morph=0.05`, and `lambda_vasc=0.10`, assigning a moderately higher weight to the CD34-derived vascular reference.
+The default setting uses $\gamma=3$, $\lambda_{\mathrm{morph}}=0.05$, and $\lambda_{\mathrm{vasc}}=0.10$, assigning a moderately higher weight to the CD34-derived vascular reference.
 
 ## ⚙️ Installation
 
