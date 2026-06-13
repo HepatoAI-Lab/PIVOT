@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from pivot.data import PIVOTCaseDataset, pivot_collate
 from pivot.models import PIVOTMRIEncoder, PIVOTModel, PathologyReferenceModel
 from pivot.training import evaluate, train_one_epoch
-from pivot.utils.config import load_config
+from pivot.utils.config import load_config, resolve_config_path
 
 
 def load_reference_model(path: str, cfg: dict, device: torch.device) -> PathologyReferenceModel:
@@ -64,8 +64,8 @@ def main() -> None:
     cd34_model = load_reference_model(args.cd34_checkpoint, cfg, device)
 
     mri_encoder = PIVOTMRIEncoder(
-        triad_repo=cfg["paths"]["triad_repo"],
-        triad_checkpoint=cfg["paths"]["triad_checkpoint"],
+        triad_repo=resolve_config_path(cfg, cfg["paths"]["triad_repo"]),
+        triad_checkpoint=resolve_config_path(cfg, cfg["paths"]["triad_checkpoint"]),
         model_dim=cfg["model"].get("model_dim", 768),
         adapter_bottleneck_dim=cfg["model"].get("adapter_bottleneck_dim", 128),
         transformer_layers=cfg["model"].get("sequence_transformer_layers", 2),

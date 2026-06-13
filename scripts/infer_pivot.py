@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 
 from pivot.data import PIVOTCaseDataset, pivot_collate
 from pivot.models import PIVOTMRIEncoder, PIVOTModel
-from pivot.utils.config import load_config
+from pivot.utils.config import load_config, resolve_config_path
 
 
 def main() -> None:
@@ -27,8 +27,8 @@ def main() -> None:
     loader = DataLoader(ds, batch_size=1, shuffle=False, collate_fn=pivot_collate)
 
     mri_encoder = PIVOTMRIEncoder(
-        triad_repo=cfg["paths"]["triad_repo"],
-        triad_checkpoint=cfg["paths"]["triad_checkpoint"],
+        triad_repo=resolve_config_path(cfg, cfg["paths"]["triad_repo"]),
+        triad_checkpoint=resolve_config_path(cfg, cfg["paths"]["triad_checkpoint"]),
         model_dim=cfg["model"].get("model_dim", 768),
         adapter_bottleneck_dim=cfg["model"].get("adapter_bottleneck_dim", 128),
         transformer_layers=cfg["model"].get("sequence_transformer_layers", 2),

@@ -49,9 +49,9 @@ class GigaPathSlideEmbedder(nn.Module):
 
     def __init__(
         self,
-        gigapath_repo: str | Path = "/home/rj/Claude_space/Project/prov-gigapath",
-        tile_encoder_path: str | Path | None = "/home/rj/Claude_space/Project/prov-gigapath/hf_weights/pytorch_model.bin",
-        slide_encoder_path: str | Path | None = "/home/rj/Claude_space/Project/prov-gigapath/hf_weights/slide_encoder.pth",
+        gigapath_repo: str | Path = "../prov-gigapath",
+        tile_encoder_path: str | Path | None = "../prov-gigapath/hf_weights/pytorch_model.bin",
+        slide_encoder_path: str | Path | None = "../prov-gigapath/hf_weights/slide_encoder.pth",
         global_pool: bool = False,
     ) -> None:
         super().__init__()

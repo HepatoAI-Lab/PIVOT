@@ -8,7 +8,7 @@ from pathlib import Path
 import pandas as pd
 import torch
 
-from pivot.utils.config import load_config
+from pivot.utils.config import load_config, resolve_config_path
 
 
 def main() -> None:
@@ -22,7 +22,7 @@ def main() -> None:
     args = parser.parse_args()
 
     cfg = load_config(args.config)
-    gigapath_repo = Path(cfg["paths"]["gigapath_repo"])
+    gigapath_repo = Path(resolve_config_path(cfg, cfg["paths"]["gigapath_repo"]))
     if str(gigapath_repo) not in sys.path:
         sys.path.insert(0, str(gigapath_repo))
 
@@ -40,8 +40,8 @@ def main() -> None:
     embed_root.mkdir(parents=True, exist_ok=True)
 
     tile_encoder, slide_encoder = load_tile_slide_encoder(
-        local_tile_encoder_path=cfg["paths"].get("gigapath_tile_checkpoint", ""),
-        local_slide_encoder_path=cfg["paths"].get("gigapath_slide_checkpoint", ""),
+        local_tile_encoder_path=resolve_config_path(cfg, cfg["paths"].get("gigapath_tile_checkpoint", "")) or "",
+        local_slide_encoder_path=resolve_config_path(cfg, cfg["paths"].get("gigapath_slide_checkpoint", "")) or "",
         global_pool=False,
     )
     slides = pd.read_csv(args.slides_csv)

@@ -105,8 +105,8 @@ class PIVOTMRIEncoder(nn.Module):
 
     def __init__(
         self,
-        triad_repo: str | Path = "/home/rj/Claude_space/Project/Triad",
-        triad_checkpoint: str | Path | None = "/home/rj/Claude_space/Project/Triad/weights/Triad-SwinB-SimMIM.pth",
+        triad_repo: str | Path = "../Triad",
+        triad_checkpoint: str | Path | None = "../Triad/weights/Triad-SwinB-SimMIM.pth",
         sequences: tuple[str, ...] = DEFAULT_SEQUENCES,
         model_dim: int = 768,
         adapter_bottleneck_dim: int = 128,

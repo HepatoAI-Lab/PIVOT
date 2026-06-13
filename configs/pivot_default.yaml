@@ -1,11 +1,11 @@
 output_dir: outputs
 
 paths:
-  triad_repo: /home/rj/Claude_space/Project/Triad
-  triad_checkpoint: /home/rj/Claude_space/Project/Triad/weights/Triad-SwinB-SimMIM.pth
-  gigapath_repo: /home/rj/Claude_space/Project/prov-gigapath
-  gigapath_tile_checkpoint: /home/rj/Claude_space/Project/prov-gigapath/hf_weights/pytorch_model.bin
-  gigapath_slide_checkpoint: /home/rj/Claude_space/Project/prov-gigapath/hf_weights/slide_encoder.pth
+  triad_repo: ../Triad
+  triad_checkpoint: ../Triad/weights/Triad-SwinB-SimMIM.pth
+  gigapath_repo: ../prov-gigapath
+  gigapath_tile_checkpoint: ../prov-gigapath/hf_weights/pytorch_model.bin
+  gigapath_slide_checkpoint: ../prov-gigapath/hf_weights/slide_encoder.pth
 
 data:
   manifest_csv: data/pivot_manifest.csv

@@ -4,7 +4,7 @@ Official implementation of **PIVOT**, a pathology-informed foundation model fram
 
 PIVOT uses paired postoperative H&E whole-slide images and CD34 immunohistochemistry during model development to guide MRI representation learning. The clinical prediction pathway uses pretreatment MRI only.
 
-## Overview
+## 🔎 Overview
 
 PIVOT is designed for noninvasive assessment of VETC status before surgery. The framework contains three components.
 
@@ -14,7 +14,7 @@ PIVOT is designed for noninvasive assessment of VETC status before surgery. The 
 
 The final PIVOT score is generated from pretreatment MRI and can be used for VETC risk estimation, model comparison, calibration analysis, decision-curve analysis, and downstream recurrence-risk assessment.
 
-## Method
+## 🧠 Method
 
 For each patient, seven registered MRI sequences are used as model input.
 
@@ -32,12 +32,12 @@ The MRI model is optimized with VETC classification loss and two cosine-distance
 L_total = L_cls + lambda_morph L_morph + lambda_vasc L_vasc
 ```
 
-## Installation
+## ⚙️ Installation
 
 Create an environment with PyTorch, MONAI, Triad dependencies, and Prov-GigaPath dependencies. Then install PIVOT in editable mode.
 
 ```bash
-cd /home/rj/Claude_space/Project/PIVOT
+cd PIVOT
 pip install -r requirements.txt
 pip install -e .
 ```
@@ -45,15 +45,15 @@ pip install -e .
 The default configuration expects the following local foundation-model repositories and weights.
 
 ```text
-/home/rj/Claude_space/Project/Triad
-/home/rj/Claude_space/Project/Triad/weights/Triad-SwinB-SimMIM.pth
-/home/rj/Claude_space/Project/prov-gigapath
-/home/rj/Claude_space/Project/prov-gigapath/hf_weights/
+../Triad
+../Triad/weights/Triad-SwinB-SimMIM.pth
+../prov-gigapath
+../prov-gigapath/hf_weights/
 ```
 
-These paths can be changed in [configs/pivot_default.yaml](configs/pivot_default.yaml).
+These paths are relative to [configs/pivot_default.yaml](configs/pivot_default.yaml) and can be changed for a different local layout.
 
-## Data Preparation
+## 🧾 Data Preparation
 
 PIVOT uses a patient-level CSV manifest.
 
@@ -87,7 +87,7 @@ The slide CSV should contain:
 slide_id,patient_id,stain,slide_path
 ```
 
-## Training
+## 🚀 Training
 
 Train H&E and CD34 histopathologic reference models.
 
@@ -116,7 +116,7 @@ The MRI training script follows a staged procedure.
 2. Newly introduced MRI adaptation and alignment modules are trained with alignment losses.
 3. VETC classification loss is added, and the final Triad-SwinB stage is fine-tuned with a lower learning rate.
 
-## Inference
+## 🧪 Inference
 
 Run MRI-only inference with a trained PIVOT checkpoint.
 
@@ -134,7 +134,7 @@ The output file contains patient identifiers and PIVOT scores.
 patient_id,pivot_score
 ```
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```text
 configs/
@@ -154,7 +154,7 @@ scripts/
   infer_pivot.py
 ```
 
-## Citation
+## 📚 Citation
 
 If you use this code, please cite the PIVOT manuscript.
 
@@ -167,10 +167,10 @@ If you use this code, please cite the PIVOT manuscript.
 }
 ```
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 PIVOT builds on publicly available foundation-model resources for 3D MRI and whole-slide pathology representation learning, including Triad and Prov-GigaPath. Model weights are not redistributed in this repository and should be obtained from their original sources or local institutional mirrors.
 
-## License
+## 📄 License
 
 This repository is intended for academic research use. Please check the licenses of Triad, Prov-GigaPath, and all dependent packages before redistribution or clinical deployment.
