@@ -173,4 +173,6 @@ PIVOT builds on publicly available foundation-model resources for 3D MRI and who
 
 ## 📄 License
 
-This repository is intended for academic research use. Please check the licenses of Triad, Prov-GigaPath, and all dependent packages before redistribution or clinical deployment.
+The PIVOT source code is released under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+
+Pretrained weights, third-party foundation models, and datasets are not redistributed in this repository and remain subject to their original licenses and access terms.
