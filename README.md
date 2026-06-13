@@ -28,15 +28,9 @@ For pathology, slide-level embeddings from all available H&E or CD34 slides of t
 
 The MRI model is optimized with VETC classification loss and two cosine-distance alignment losses.
 
-$$
-\mathcal{L}_{\mathrm{total}}
-=
-\mathcal{L}_{\mathrm{cls}}
-+
-\lambda_{\mathrm{morph}}\mathcal{L}_{\mathrm{morph}}
-+
-\lambda_{\mathrm{vasc}}\mathcal{L}_{\mathrm{vasc}}
-$$
+<p align="center">
+  <strong>L<sub>total</sub> = L<sub>cls</sub> + λ<sub>morph</sub>L<sub>morph</sub> + λ<sub>vasc</sub>L<sub>vasc</sub></strong>
+</p>
 
 ## ⚙️ Installation
 
