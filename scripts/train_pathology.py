@@ -44,17 +44,26 @@ def main() -> None:
     import torch
     from torch.utils.data import DataLoader
 
-    from pivot.data import PIVOTCaseDataset, pivot_collate
+    from pivot.data import MRI_SEQUENCES, PIVOTCaseDataset, pivot_collate
     from pivot.models import PathologyReferenceModel
     from pivot.utils.config import load_config
 
     cfg = load_config(args.config)
+    sequences = tuple(cfg["data"].get("sequences", MRI_SEQUENCES))
     device = torch.device(cfg["training"].get("device", "cuda" if torch.cuda.is_available() else "cpu"))
     output_dir = Path(cfg["output_dir"]) / f"pathology_{args.stain}"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    train_ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=cfg["data"].get("train_split", "train"))
-    val_ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=cfg["data"].get("val_split", "val"))
+    train_ds = PIVOTCaseDataset(
+        cfg["data"]["manifest_csv"],
+        split=cfg["data"].get("train_split", "train"),
+        sequences=sequences,
+    )
+    val_ds = PIVOTCaseDataset(
+        cfg["data"]["manifest_csv"],
+        split=cfg["data"].get("val_split", "val"),
+        sequences=sequences,
+    )
     train_loader = DataLoader(
         train_ds,
         batch_size=cfg["training"].get("pathology_batch_size", 16),
