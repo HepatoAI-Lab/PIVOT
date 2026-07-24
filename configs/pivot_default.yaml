@@ -17,7 +17,6 @@ data:
     - T1WI
     - T2WI
     - DWI
-    - ADC
     - AP
     - PVP
     - DP
