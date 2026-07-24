@@ -20,18 +20,24 @@ def main() -> None:
     import torch
     from torch.utils.data import DataLoader
 
-    from pivot.data import PIVOTCaseDataset, pivot_collate
+    from pivot.data import MRI_SEQUENCES, PIVOTCaseDataset, pivot_collate
     from pivot.models import PIVOTMRIEncoder, PIVOTModel
     from pivot.utils.config import load_config, resolve_config_path
 
     cfg = load_config(args.config)
+    sequences = tuple(cfg["data"].get("sequences", MRI_SEQUENCES))
     device = torch.device(cfg["training"].get("device", "cuda" if torch.cuda.is_available() else "cpu"))
-    ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=args.split)
+    ds = PIVOTCaseDataset(
+        cfg["data"]["manifest_csv"],
+        split=args.split,
+        sequences=sequences,
+    )
     loader = DataLoader(ds, batch_size=1, shuffle=False, collate_fn=pivot_collate)
 
     mri_encoder = PIVOTMRIEncoder(
         triad_repo=resolve_config_path(cfg, cfg["paths"]["triad_repo"]),
         triad_checkpoint=resolve_config_path(cfg, cfg["paths"]["triad_checkpoint"]),
+        sequences=sequences,
         model_dim=cfg["model"].get("model_dim", 768),
         adapter_bottleneck_dim=cfg["model"].get("adapter_bottleneck_dim", 128),
         transformer_layers=cfg["model"].get("sequence_transformer_layers", 2),
