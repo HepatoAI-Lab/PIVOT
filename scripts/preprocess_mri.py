@@ -16,7 +16,7 @@ def main() -> None:
     parser.add_argument("--target-spacing", nargs=3, type=float, default=(1.5, 1.5, 3.0))
     parser.add_argument("--crop-size", nargs=3, type=int, default=(96, 160, 160))
     parser.add_argument("--reference-sequence", default="PVP")
-    parser.add_argument("--sequences", nargs="+", default=["T1WI", "T2WI", "DWI", "ADC", "AP", "PVP", "DP"])
+    parser.add_argument("--sequences", nargs="+", default=["T1WI", "T2WI", "DWI", "AP", "PVP", "DP"])
     args = parser.parse_args()
 
     import pandas as pd
