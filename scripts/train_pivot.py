@@ -29,10 +29,19 @@ def load_reference_model(path: str, cfg: dict, device: torch.device):
 def make_loaders(cfg: dict):
     from torch.utils.data import DataLoader
 
-    from pivot.data import PIVOTCaseDataset, pivot_collate
+    from pivot.data import MRI_SEQUENCES, PIVOTCaseDataset, pivot_collate
 
-    train_ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=cfg["data"].get("train_split", "train"))
-    val_ds = PIVOTCaseDataset(cfg["data"]["manifest_csv"], split=cfg["data"].get("val_split", "val"))
+    sequences = tuple(cfg["data"].get("sequences", MRI_SEQUENCES))
+    train_ds = PIVOTCaseDataset(
+        cfg["data"]["manifest_csv"],
+        split=cfg["data"].get("train_split", "train"),
+        sequences=sequences,
+    )
+    val_ds = PIVOTCaseDataset(
+        cfg["data"]["manifest_csv"],
+        split=cfg["data"].get("val_split", "val"),
+        sequences=sequences,
+    )
     train_loader = DataLoader(
         train_ds,
         batch_size=cfg["training"].get("mri_batch_size", 2),
@@ -59,11 +68,13 @@ def main() -> None:
 
     import torch
 
+    from pivot.data import MRI_SEQUENCES
     from pivot.models import PIVOTMRIEncoder, PIVOTModel
     from pivot.training import evaluate, train_one_epoch
     from pivot.utils.config import load_config, resolve_config_path
 
     cfg = load_config(args.config)
+    sequences = tuple(cfg["data"].get("sequences", MRI_SEQUENCES))
     device = torch.device(cfg["training"].get("device", "cuda" if torch.cuda.is_available() else "cpu"))
     output_dir = Path(cfg["output_dir"]) / "pivot_mri"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -75,6 +86,7 @@ def main() -> None:
     mri_encoder = PIVOTMRIEncoder(
         triad_repo=resolve_config_path(cfg, cfg["paths"]["triad_repo"]),
         triad_checkpoint=resolve_config_path(cfg, cfg["paths"]["triad_checkpoint"]),
+        sequences=sequences,
         model_dim=cfg["model"].get("model_dim", 768),
         adapter_bottleneck_dim=cfg["model"].get("adapter_bottleneck_dim", 128),
         transformer_layers=cfg["model"].get("sequence_transformer_layers", 2),
