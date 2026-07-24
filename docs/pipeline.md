@@ -8,7 +8,7 @@ This document summarizes the reproducible workflow implemented in this repositor
 
 ## 2. MRI Preprocessing
 
-`scripts/preprocess_mri.py` resamples the seven MRI sequences, registers them to the PVP phase, normalizes intensity, and exports tumor-centered 3D tensors. The output is an MRI manifest with one column per sequence.
+`scripts/preprocess_mri.py` resamples the six MRI sequences, registers them to the PVP phase, normalizes intensity, and exports tumor-centered 3D tensors. The output is an MRI manifest with one column per sequence.
 
 ## 3. WSI Processing
 
