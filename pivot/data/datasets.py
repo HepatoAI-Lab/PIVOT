@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import Dataset
 
 
-MRI_SEQUENCES = ("T1WI", "T2WI", "DWI", "ADC", "AP", "PVP", "DP")
+MRI_SEQUENCES = ("T1WI", "T2WI", "DWI", "AP", "PVP", "DP")
 
 
 def _split_paths(value: Any) -> list[str]:
@@ -62,7 +62,7 @@ class PIVOTCaseDataset(Dataset):
     """Patient-level PIVOT dataset backed by a CSV manifest.
 
     Required columns:
-        patient_id, label, split, T1WI, T2WI, DWI, ADC, AP, PVP, DP
+        patient_id, label, split, T1WI, T2WI, DWI, AP, PVP, DP
 
     Optional columns:
         he_slide_embeddings, cd34_slide_embeddings
