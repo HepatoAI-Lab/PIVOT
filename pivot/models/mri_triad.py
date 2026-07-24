@@ -10,7 +10,7 @@ from torch import nn
 from .layers import ResidualMLPAdapter
 
 
-DEFAULT_SEQUENCES = ("T1WI", "T2WI", "DWI", "ADC", "AP", "PVP", "DP")
+DEFAULT_SEQUENCES = ("T1WI", "T2WI", "DWI", "AP", "PVP", "DP")
 
 
 class TriadSwinBBackbone(nn.Module):
@@ -159,7 +159,7 @@ class PIVOTMRIEncoder(nn.Module):
         volumes: torch.Tensor,
         sequence_mask: torch.Tensor | None = None,
     ) -> dict[str, torch.Tensor]:
-        """Encode seven registered MRI sequences.
+        """Encode six registered MRI sequences.
 
         Args:
             volumes: Tensor shaped [B, S, C, D, H, W] or [B, S, D, H, W].
