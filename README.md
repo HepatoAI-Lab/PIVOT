@@ -16,10 +16,10 @@ The final PIVOT score is generated from pretreatment MRI and can be used for VET
 
 ## 🧠 Method
 
-For each patient, seven registered MRI sequences are used as model input.
+For each patient, six registered MRI sequences are used as model input.
 
 ```text
-T1WI, T2WI, DWI, ADC, AP, PVP, DP
+T1WI, T2WI, DWI, AP, PVP, DP
 ```
 
 Each sequence is encoded independently with the same Triad-SwinB encoder. Sequence-level embeddings are adapted with lightweight sequence-specific adapters, combined with sequence-type embeddings, and processed by a sequence-token transformer. A learnable VETC classification token is used for MRI-based prediction and for alignment with histopathologic reference embeddings during training.
@@ -68,7 +68,7 @@ PIVOT uses a patient-level CSV manifest.
 Required columns:
 
 ```text
-patient_id,split,label,T1WI,T2WI,DWI,ADC,AP,PVP,DP,he_slide_embeddings,cd34_slide_embeddings
+patient_id,split,label,T1WI,T2WI,DWI,AP,PVP,DP,he_slide_embeddings,cd34_slide_embeddings
 ```
 
 MRI columns should point to tumor-centered, registered 3D MRI tensors saved as `.pt`, `.npy`, or `.npz`. Pathology columns should point to precomputed slide-level embeddings from Prov-GigaPath. Multiple slide embeddings can be provided as semicolon-separated paths.
@@ -105,7 +105,7 @@ patient_id,image_path
 
 ### 🧬 Multiparametric MRI Preparation
 
-Prepare registered tumor-centered tensors for the seven MRI sequences.
+Prepare registered tumor-centered tensors for the six MRI sequences.
 
 ```bash
 python scripts/preprocess_mri.py \
@@ -117,7 +117,7 @@ python scripts/preprocess_mri.py \
 The input CSV should contain:
 
 ```text
-patient_id,mask_path,T1WI,T2WI,DWI,ADC,AP,PVP,DP
+patient_id,mask_path,T1WI,T2WI,DWI,AP,PVP,DP
 ```
 
 ### 🧫 Whole-Slide Image Processing
