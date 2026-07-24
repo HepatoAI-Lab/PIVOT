@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 
-DEFAULT_SEQUENCES = ("T1WI", "T2WI", "DWI", "ADC", "AP", "PVP", "DP")
+DEFAULT_SEQUENCES = ("T1WI", "T2WI", "DWI", "AP", "PVP", "DP")
 
 
 def _join_paths(values: pd.Series) -> str:
