@@ -14,7 +14,7 @@ def main() -> None:
     parser.add_argument("--labels-csv", required=True, help="CSV with patient_id, split, and label.")
     parser.add_argument("--slide-embedding-csv", default=None)
     parser.add_argument("--output-csv", required=True)
-    parser.add_argument("--sequences", nargs="+", default=["T1WI", "T2WI", "DWI", "ADC", "AP", "PVP", "DP"])
+    parser.add_argument("--sequences", nargs="+", default=["T1WI", "T2WI", "DWI", "AP", "PVP", "DP"])
     args = parser.parse_args()
 
     from pivot.preprocessing import build_patient_manifest
